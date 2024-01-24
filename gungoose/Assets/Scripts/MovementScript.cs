@@ -1,9 +1,11 @@
 using UnityEngine;
-using UnityEngine.Assertions.Must;
 
 public class MovementScript : MonoBehaviour
 {
-    [SerializeField] float moveSpeed;
+    [SerializeField] int moveSpeed;
+    [SerializeField] float accelerationSpeed;
+    [SerializeField] float drag;
+    [SerializeField] float decayFactor;
 
     float horizontalInput;
     float verticalInput;
@@ -16,6 +18,7 @@ public class MovementScript : MonoBehaviour
     Rigidbody2D rb;
 
     Vector2 movement;
+    Vector2 acceleration;
 
     private void Start()
     {
@@ -25,16 +28,20 @@ public class MovementScript : MonoBehaviour
     {
         GetPlayerInput();
 
-        movement = new Vector2(horizontalInput, verticalInput).normalized;
+        ApplyAcceleration();
+        ApplyDrag();
 
         RotatePlayer();
+
+        movement = acceleration;
+
+
+        Debug.Log(rb.velocity);
+        
     }
     private void FixedUpdate()
     {
-        rb.velocity = movement * moveSpeed * 10 * Time.fixedDeltaTime;
-
-        //rb.velocity = Vector2.zero;
-
+        rb.velocity = movement * moveSpeed * 10 * Time.deltaTime;
     }
 
     void GetPlayerInput()
@@ -61,6 +68,23 @@ public class MovementScript : MonoBehaviour
         else if (Input.GetAxisRaw("Vertical") > 0)
         {
             this.transform.eulerAngles = Vector3.zero;
+        }
+    }
+
+    void ApplyAcceleration()
+    {
+        Vector2 targetVelocity = new Vector2(horizontalInput, verticalInput).normalized * moveSpeed;
+
+        acceleration = Vector2.Lerp(acceleration, targetVelocity, accelerationSpeed * Time.deltaTime);
+    }
+
+    void ApplyDrag()
+    {
+        if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
+        {
+            acceleration = Vector2.Lerp(acceleration, Vector2.zero, drag * decayFactor * Time.deltaTime);
+
+            movement = acceleration;
         }
     }
 }
