@@ -8,7 +8,7 @@ public class GunScript : MonoBehaviour
 
     [SerializeField] int bloomRange;
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (Input.GetButtonDown("Fire1"))
         {
@@ -20,24 +20,23 @@ public class GunScript : MonoBehaviour
 
     void Shoot()
     {
-        bloomRange = BloomControl();
 
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.Euler(0, 0, bloomRange));
+        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        bullet.transform.Rotate(Vector3.forward, BloomControl(bloomRange));
+
+        Debug.Log("bullet" + bullet.transform.rotation.z);
 
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
 
-        rb.velocity = firePoint.up * bulletSpeed;
+        Vector2 bulletDirection = bullet.transform.up.normalized;
+        rb.velocity = bulletDirection * bulletSpeed;
 
         Destroy(bullet, 4f);
     }
 
-    int BloomControl()
+    int BloomControl(int bloomRange)
     {
-
-        int maxRotation = (int)firePoint.localRotation.z + 5;
-        int minRotation = (int)firePoint.localRotation.z - 5;
-
-        return Random.Range(minRotation, maxRotation);
+        return Random.Range(bloomRange, -bloomRange);
     }
 }
 
