@@ -36,7 +36,7 @@ public class MovementScript : MonoBehaviour
         movement = acceleration;
 
 
-        Debug.Log(rb.velocity);
+        //Debug.Log(rb.velocity);
         
     }
     private void FixedUpdate()
