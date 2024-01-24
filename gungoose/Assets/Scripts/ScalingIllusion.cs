@@ -22,7 +22,6 @@ public class ScalingIllusion : MonoBehaviour
     void Update()
     {
         float distance = Mathf.Abs(scalingTarget.transform.position.y - transform.position.y);
-        Debug.Log(gameObject.name + distance);
         float newScale = Mathf.Max(scalingSize / distance, minScale);
 
         // Set the new size
