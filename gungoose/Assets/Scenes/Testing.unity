@@ -516,7 +516,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238494e42d0d29e418d51cc8a7a1760b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 10
+  keyUp: 119
+  keyDown: 115
+  keyLeft: 97
+  keyRight: 100
 --- !u!50 &1927886974
 Rigidbody2D:
   serializedVersion: 4
