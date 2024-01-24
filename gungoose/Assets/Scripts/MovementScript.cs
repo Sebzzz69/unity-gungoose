@@ -1,8 +1,9 @@
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 public class MovementScript : MonoBehaviour
 {
-    [SerializeField] float speed;
+    [SerializeField] float moveSpeed;
 
     Rigidbody2D rb;
 
@@ -11,13 +12,24 @@ public class MovementScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
-        Vector2 movement = new Vector2 (horizontalInput, verticalInput);
+        // Calculate movement vector
+        Vector2 movement = new Vector2(horizontalInput, verticalInput);
 
-        rb.velocity = movement * speed;
+        if (movement != Vector2.zero)
+        {
+            float angle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
+            this.transform.rotation = Quaternion.Euler(0f, 0f, angle);
+        }
+
+
+        // Move the Rigidbody
+        rb.velocity = movement * moveSpeed;
+
+
     }
 }
