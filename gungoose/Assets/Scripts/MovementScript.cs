@@ -34,9 +34,6 @@ public class MovementScript : MonoBehaviour
         RotatePlayer();
 
         movement = acceleration;
-
-
-        //Debug.Log(rb.velocity);
         
     }
     private void FixedUpdate()
@@ -73,13 +70,18 @@ public class MovementScript : MonoBehaviour
 
     void ApplyAcceleration()
     {
+        // basically the moveSpeed variable
         Vector2 targetVelocity = new Vector2(horizontalInput, verticalInput).normalized * moveSpeed;
 
+        // Lerp 
         acceleration = Vector2.Lerp(acceleration, targetVelocity, accelerationSpeed * Time.deltaTime);
     }
 
     void ApplyDrag()
     {
+        // Tbh IDK if this even works
+        // But its supposte to be the opposite of acceleration once 
+        // you don't move anymore
         if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
         {
             acceleration = Vector2.Lerp(acceleration, Vector2.zero, drag * decayFactor * Time.deltaTime);

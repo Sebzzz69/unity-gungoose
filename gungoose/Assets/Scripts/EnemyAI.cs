@@ -24,11 +24,8 @@ public class EnemyAI : MonoBehaviour
 
     private void Update()
     {
-       
 
-        raycastOffset = this.transform.position + this.transform.right * (transform.localScale.y / 2f + 0.07f);
-        targetRaycast = Physics2D.Raycast(raycastOffset, this.transform.right, detectionRange);
-        Debug.DrawRay(raycastOffset, this.transform.right * detectionRange, Color.green);
+        HandleRaycast();
 
         CheckRaycastHit(targetRaycast);
 
@@ -46,9 +43,20 @@ public class EnemyAI : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.velocity = movement * moveSpeed * 10 * Time.fixedDeltaTime;
+        Move();
     }
 
+    void HandleRaycast()
+    {
+        // Offset so raycast doesn't detect this.gameObject
+        raycastOffset = this.transform.position + this.transform.right * (transform.localScale.y / 2f + 0.07f);
+
+        //Creating raycast
+        targetRaycast = Physics2D.Raycast(raycastOffset, this.transform.right, detectionRange);
+
+        //Debugging raycast
+        Debug.DrawRay(raycastOffset, this.transform.right * detectionRange, Color.green);
+    }
     void CheckRaycastHit(RaycastHit2D hit)
     {
         if (hit.collider != null)
@@ -70,15 +78,23 @@ public class EnemyAI : MonoBehaviour
 
     public void LookAt2D(Transform transform, Vector2 target)
     {
+        // IDK HTF this works
+        // Too lazy to figure out
+
         Vector2 current = transform.position;
         var direction = target - current;
         var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 
+    private void Move()
+    {
+        rb.velocity = movement * moveSpeed * 10 * Time.fixedDeltaTime;
+    }
+
     void MoveTowards(GameObject target)
     {
-        // Calculate the movement
+        // Calculate the movement direction
         movement = (target.transform.position - this.transform.position).normalized;
     }
 

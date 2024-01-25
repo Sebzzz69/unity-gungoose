@@ -24,8 +24,6 @@ public class GunScript : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         bullet.transform.Rotate(Vector3.forward, BloomControl(bloomRange));
 
-        //Debug.Log("bullet" + bullet.transform.rotation.z);
-
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
 
         Vector2 bulletDirection = bullet.transform.up.normalized;
