@@ -1,57 +1,53 @@
-using Unity.Burst.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    [SerializeField] int moveSpeed;
+
     [SerializeField] int detectionRange;
+    [SerializeField] int moveSpeed;
 
-    RaycastHit2D hit;
-
+    RaycastHit2D targetRaycast;
     Rigidbody2D rb;
 
+
     Vector3 raycastOffset;
-    Vector3 raycastTarget;
+    Vector2 targetVector;
+
     Vector2 movement;
 
     bool isFollowingPlayer = false;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        rb = this.GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
-        // Create raycast offest
-        // Start at the end of the this object
-        raycastOffset = this.transform.position + this.transform.up * (transform.localScale.y / 2f + 0.07f);
-        
+       
 
-        CheckRaycastHit(hit);
+        raycastOffset = this.transform.position + this.transform.right * (transform.localScale.y / 2f + 0.07f);
+        targetRaycast = Physics2D.Raycast(raycastOffset, this.transform.right, detectionRange);
+        Debug.DrawRay(raycastOffset, this.transform.right * detectionRange, Color.green);
+
+        CheckRaycastHit(targetRaycast);
 
         if (isFollowingPlayer)
         {
-            hit = Physics2D.Raycast(raycastOffset, raycastTarget, detectionRange);
-
-            MoveTowards(hit.collider.gameObject);
-            
+            MoveTowards(targetRaycast.collider.gameObject);
+            LookAt2D(this.transform, targetRaycast.collider.transform.position);
         }
-        else if(!isFollowingPlayer)
+        else if (!isFollowingPlayer)
         {
             StopMoving();
         }
-        
-        Debug.DrawRay(raycastOffset, raycastTarget * detectionRange, Color.green);
-        Debug.Log(movement);
+
     }
 
     private void FixedUpdate()
     {
-        rb.velocity = movement * moveSpeed * 10 * Time.deltaTime;
+        rb.velocity = movement * moveSpeed * 10 * Time.fixedDeltaTime;
     }
-
 
     void CheckRaycastHit(RaycastHit2D hit)
     {
@@ -63,8 +59,6 @@ public class EnemyAI : MonoBehaviour
                 Debug.Log("Player detected!");
                 isFollowingPlayer = true;
 
-                raycastTarget = hit.collider.gameObject.transform.position;
-
             }
         }
 
@@ -74,32 +68,23 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    public void LookAt2D(Transform transform, Vector2 target)
+    {
+        Vector2 current = transform.position;
+        var direction = target - current;
+        var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+    }
+
     void MoveTowards(GameObject target)
     {
         // Calculate the movement
         movement = (target.transform.position - this.transform.position).normalized;
-
-        // Calculate new raycast end to follow 'target'
-        //raycastTarget = target.gameObject.transform.position;
-
-        /*float angle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
-
-        // Create a Quaternion rotation based on the calculated angle
-        Quaternion targetRotation = Quaternion.AngleAxis(angle, Vector3.forward);
-
-        // Smoothly rotate towards the target rotation
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);*/
     }
+
     void StopMoving()
     {
-        // Raycast target will be away from enemy
-        hit = Physics2D.Raycast(raycastOffset, raycastTarget, detectionRange);
-
         movement = Vector2.zero;
-
     }
 
 }
-
-
-

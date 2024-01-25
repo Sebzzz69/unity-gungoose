@@ -322,11 +322,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 361129396}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f9414670b4934b438924cbcdbcbb00b, type: 3}
+  m_Script: {fileID: 11500000, guid: f25ad447e4f7ec54895b8bab93d8b6a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0
-  detectionRange: 10
+  detectionRange: 5
+  moveSpeed: 10
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
