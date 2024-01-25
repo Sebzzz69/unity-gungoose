@@ -7,12 +7,15 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] int moveSpeed;
     [SerializeField] int detectionRange;
 
+    RaycastHit2D hit;
+
     Rigidbody2D rb;
 
     Vector3 raycastOffset;
+    Vector3 raycastTarget;
     Vector2 movement;
 
-    bool isFollowingPlayer;
+    bool isFollowingPlayer = false;
 
     private void Start()
     {
@@ -22,22 +25,25 @@ public class EnemyAI : MonoBehaviour
     private void Update()
     {
         // Create raycast offest
-        // Start at the end of the object
+        // Start at the end of the this object
         raycastOffset = this.transform.position + this.transform.up * (transform.localScale.y / 2f + 0.07f);
-        RaycastHit2D hit = Physics2D.Raycast(raycastOffset, transform.up, detectionRange);
+        
 
         CheckRaycastHit(hit);
 
         if (isFollowingPlayer)
         {
+            hit = Physics2D.Raycast(raycastOffset, raycastTarget, detectionRange);
+
             MoveTowards(hit.collider.gameObject);
+            
         }
         else if(!isFollowingPlayer)
         {
             StopMoving();
         }
         
-        Debug.DrawRay(raycastOffset, transform.up * detectionRange, Color.green);
+        Debug.DrawRay(raycastOffset, raycastTarget * detectionRange, Color.green);
         Debug.Log(movement);
     }
 
@@ -57,6 +63,8 @@ public class EnemyAI : MonoBehaviour
                 Debug.Log("Player detected!");
                 isFollowingPlayer = true;
 
+                raycastTarget = hit.collider.gameObject.transform.position;
+
             }
         }
 
@@ -71,17 +79,24 @@ public class EnemyAI : MonoBehaviour
         // Calculate the movement
         movement = (target.transform.position - this.transform.position).normalized;
 
-        float angle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
+        // Calculate new raycast end to follow 'target'
+        //raycastTarget = target.gameObject.transform.position;
+
+        /*float angle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
 
         // Create a Quaternion rotation based on the calculated angle
         Quaternion targetRotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
         // Smoothly rotate towards the target rotation
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);*/
     }
     void StopMoving()
     {
+        // Raycast target will be away from enemy
+        hit = Physics2D.Raycast(raycastOffset, raycastTarget, detectionRange);
+
         movement = Vector2.zero;
+
     }
 
 }
