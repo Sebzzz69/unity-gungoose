@@ -1,3 +1,6 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
@@ -5,6 +8,8 @@ public class EnemyAI : MonoBehaviour
 
     [SerializeField] int detectionRange;
     [SerializeField] int moveSpeed;
+    [SerializeField] int damageAmount;
+    [SerializeField] int damageCooldownSeconds;
 
     RaycastHit2D targetRaycast;
     Rigidbody2D rb;
@@ -15,11 +20,15 @@ public class EnemyAI : MonoBehaviour
 
     Vector2 movement;
 
-    bool isFollowingPlayer = false;
+    bool isFollowingPlayer;
+    bool damagePlayer;
 
     private void Start()
     {
         rb = this.GetComponent<Rigidbody2D>();
+
+        isFollowingPlayer = false;
+        damagePlayer = false;
     }
 
     private void Update()
