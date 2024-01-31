@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-
+    public GameManager gameManager;
     public PlayerHealth healthSystem;
     [SerializeField] int detectionRange;
     [SerializeField] int moveSpeed;
@@ -129,5 +129,13 @@ public class EnemyAI : MonoBehaviour
                 healthSystem.TakeDamage(damage);
             }
         }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Respawn"))
+        {
+            gameManager.LoseGame();
+        }
     }
+}
 

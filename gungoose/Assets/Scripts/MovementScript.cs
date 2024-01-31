@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class MovementScript : MonoBehaviour
 {
+    
+
     [SerializeField] int moveSpeed;
     [SerializeField] float accelerationSpeed;
     [SerializeField] float drag;
@@ -34,7 +36,7 @@ public class MovementScript : MonoBehaviour
         RotatePlayer();
 
         movement = acceleration;
-        
+
     }
     private void FixedUpdate()
     {
@@ -49,16 +51,16 @@ public class MovementScript : MonoBehaviour
     void RotatePlayer()
     {
 
-        if(Input.GetAxisRaw("Horizontal") < 0)
+        if (Input.GetAxisRaw("Horizontal") < 0)
         {
             this.transform.eulerAngles = new Vector3(0, 0, 90);
         }
-        else if(Input.GetAxisRaw("Horizontal") > 0)
+        else if (Input.GetAxisRaw("Horizontal") > 0)
         {
             this.transform.eulerAngles = new Vector3(0, 0, -90);
         }
 
-        if(Input.GetAxisRaw("Vertical") < 0)
+        if (Input.GetAxisRaw("Vertical") < 0)
         {
             this.transform.eulerAngles = new Vector3(0, 0, 180);
         }
@@ -89,4 +91,6 @@ public class MovementScript : MonoBehaviour
             movement = acceleration;
         }
     }
+
+   
 }

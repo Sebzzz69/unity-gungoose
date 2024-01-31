@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - ScalingTarget
+  - Enemy
+  - Lose
   layers:
   - Default
   - TransparentFX
