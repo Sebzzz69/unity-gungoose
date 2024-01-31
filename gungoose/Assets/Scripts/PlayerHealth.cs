@@ -1,30 +1,47 @@
 using UnityEngine;
 
+
+
+
 public class PlayerHealth : MonoBehaviour
 {
-    [SerializeField] int health;
-    public int Health { get { return health; } }
-
+    public int maxHealth = 100;
+    private int currentHealth;
 
     private void Start()
     {
-
+        currentHealth = maxHealth;
     }
 
-    private void Update()
-    {
-        if (health <= 0)
-        {
-            Destroy(this.gameObject);
-        }
-    }
     public void TakeDamage(int damageAmount)
     {
-        health -= damageAmount;
+        currentHealth -= damageAmount;
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
     }
 
+    private void Die()
+    {
+        
+        Destroy(gameObject);
+    }
 
-
-
-
+    public void Heal(int healAmount)
+    {
+        currentHealth += healAmount;
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+    }
 }
+
+
+
+
+
+
+
+
