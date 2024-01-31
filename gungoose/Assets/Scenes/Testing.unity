@@ -325,9 +325,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f25ad447e4f7ec54895b8bab93d8b6a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthSystem: {fileID: 0}
   detectionRange: 5
   moveSpeed: 10
-  damageToPlayer: 5
+  damageAmount: 0
+  damageCooldownSeconds: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -739,10 +741,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfc085000cbe5c84d9dec309a4af05a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 1751305696048513978, guid: 32979b1958ea97e42922a14f71fae95c, type: 3}
+  weaponData: {fileID: 11400000, guid: 15b5e531e9639c247baa9ca547ffea12, type: 2}
   firePoint: {fileID: 332806224}
-  bulletSpeed: 10
-  bloomRange: 15
 --- !u!61 &1927886976
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -800,7 +800,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43aa738e49bb3754096f417fa604591e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
+  maxHealth: 100
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

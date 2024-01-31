@@ -3,19 +3,30 @@ using UnityEngine;
 
 public class GunScript : MonoBehaviour
 {
-    [SerializeField] GameObject bulletPrefab;
-    [SerializeField] Transform firePoint;
-    [SerializeField] float bulletSpeed;
-    [SerializeField] int bloomRange;
 
-    [SerializeField] int ammunitionAmount;
-    [SerializeField] int reloadTimeInSeconds;
+    [SerializeField] WeaponData weaponData;
+
+    GameObject bulletPrefab;
+    [SerializeField] Transform firePoint;
+
+    int bulletSpeed;
+    int bloomRange;
+
+    int ammunitionAmount;
+    int reloadTimeInSeconds;
     int bulletCount;
     
 
 
     private void Start()
     {
+        bulletPrefab = weaponData.bulletPrefab;
+        bulletSpeed = weaponData.bulletSpeed;
+        bloomRange = weaponData.bloomRange;
+
+        ammunitionAmount = weaponData.ammunitionAmount;
+        reloadTimeInSeconds = weaponData.reloadTimeInSeconds;
+
         bulletCount = ammunitionAmount;
     }
 
