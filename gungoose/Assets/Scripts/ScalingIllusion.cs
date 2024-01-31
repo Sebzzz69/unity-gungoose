@@ -8,14 +8,14 @@ public class ScalingIllusion : MonoBehaviour
 
     [SerializeField] float scalingSize;
     float minScale;
-    float maxScale;
+    //float maxScale;
 
     void Start()
     {
         scalingTarget = GameObject.FindGameObjectWithTag("ScalingTarget");
 
         minScale = 0.5f;
-        maxScale = 1.0f;
+        //maxScale = 1.0f;
     }
 
     // Update is called once per frame
