@@ -22,17 +22,12 @@ public class EnemyAI : MonoBehaviour
     Vector2 movement;
 
     bool isFollowingPlayer;
-    bool damagePlayer;
 
     private void Start()
     {
         rb = this.GetComponent<Rigidbody2D>();
 
         isFollowingPlayer = false;
-        damagePlayer = false;
-
-
-       
     }
 
     private void Update()
@@ -115,18 +110,13 @@ public class EnemyAI : MonoBehaviour
     {
         movement = Vector2.zero;
     }
-   
-    
-      
 
-      
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.gameObject.CompareTag("Player"))
             {
-                int damage = 20; // Or any other value you want
-                healthSystem.TakeDamage(damage);
+                healthSystem.TakeDamage(damageAmount);
             }
         }
     }

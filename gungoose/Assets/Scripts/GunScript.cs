@@ -15,6 +15,8 @@ public class GunScript : MonoBehaviour
     int ammunitionAmount;
     int reloadTimeInSeconds;
     int bulletCount;
+
+    bool isShotgun;
     
 
 
@@ -26,6 +28,8 @@ public class GunScript : MonoBehaviour
 
         ammunitionAmount = weaponData.ammunitionAmount;
         reloadTimeInSeconds = weaponData.reloadTimeInSeconds;
+
+        isShotgun = weaponData.isShotgun;
 
         bulletCount = ammunitionAmount;
     }
@@ -64,21 +68,62 @@ public class GunScript : MonoBehaviour
 
     void Shoot()
     {
+        int numberOfBullets = 5;
 
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        bullet.transform.Rotate(Vector3.forward, BloomControl(bloomRange));
+        if (isShotgun)
+        {
 
-        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
 
-        Vector2 bulletDirection = bullet.transform.up.normalized;
-        rb.velocity = bulletDirection * bulletSpeed;
+            for (int i = 0; i < numberOfBullets; i++)
+            {
+                // Calculate random spread within the spread angle
+                Quaternion spreadRotation = Quaternion.Euler(0, 0, firePoint.rotation.eulerAngles.z + BloomControl(bloomRange));
 
-        Destroy(bullet, 4f);
+                // Instantiate bullet with spread rotation
+                GameObject bullet = Instantiate(bulletPrefab, firePoint.position, spreadRotation);
+
+                Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+
+                // Apply bullet velocity
+                Vector2 bulletDirection = bullet.transform.up.normalized;
+                rb.velocity = bulletDirection * bulletSpeed;
+
+                Destroy(bullet, 2f);
+
+                Debug.DrawRay(firePoint.position, bulletDirection * 5, Color.white, 0.1f);
+            }
+
+
+        }
+        else
+        {
+            GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            bullet.transform.Rotate(Vector3.forward, BloomControl(bloomRange));
+
+            Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+
+            Vector2 bulletDirection = bullet.transform.up.normalized;
+            rb.velocity = bulletDirection * bulletSpeed;
+
+            Destroy(bullet, 4f);
+
+            Debug.DrawRay(firePoint.position, bulletDirection * 5, Color.white, 0.1f);
+        }
+
+        
     }
 
     int BloomControl(int bloomRange)
     {
-        return Random.Range(bloomRange, -bloomRange);
+        if (isShotgun)
+        {
+            return Random.Range(bloomRange + 40, (bloomRange + 40) * -1);
+        }
+        else
+        {
+            return Random.Range(bloomRange, -bloomRange);
+        }
+        
     }
 }
 
