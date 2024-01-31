@@ -1,23 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
 
     public PlayerHealth healthSystem;
-    [SerializeField] int detectionRange;
     [SerializeField] int moveSpeed;
     [SerializeField] int damageAmount;
     [SerializeField] int damageCooldownSeconds;
 
-    RaycastHit2D targetRaycast;
+    
+
+    [Header("Raycast settings for player detection")]
+    [SerializeField] Transform raycastOrigin;
+    [SerializeField] int detectionRange;
+    [SerializeField] int detectionSpreadAngle;
+    [SerializeField] int detectionDensity;
+   
     Rigidbody2D rb;
+    RaycastHit2D targetRaycast;
 
-
-    Vector3 raycastOffset;
-    Vector2 targetVector;
 
     Vector2 movement;
 
@@ -35,7 +37,7 @@ public class EnemyAI : MonoBehaviour
 
         HandleRaycast();
 
-        CheckRaycastHit(targetRaycast);
+        //CheckRaycastHit(targetRaycast);
 
         if (isFollowingPlayer)
         {
@@ -56,28 +58,25 @@ public class EnemyAI : MonoBehaviour
 
     void HandleRaycast()
     {
-        // Offset so raycast doesn't detect this.gameObject
-        raycastOffset = this.transform.localPosition + this.transform.right * (transform.localScale.y / 2f + 0.07f);
 
-        //Creating raycast
-        //targetRaycast = Physics2D.Raycast(raycastOffset, this.transform.right, detectionRange);
+        float angleStep = detectionSpreadAngle / (detectionDensity - 1); // Calculate the angle between each raycast
+        float startAngle = -detectionSpreadAngle / 2;
+        RaycastHit2D hit;
 
         // Creating raycasts
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < detectionDensity; i++)
         {
-            RaycastHit2D hitRight = Physics2D.Raycast(raycastOffset, new Vector2(this.transform.localPosition.x, i * 0.5f), detectionRange);
-            RaycastHit2D hitLeft = Physics2D.Raycast(raycastOffset, new Vector2(this.transform.localPosition.x, -i * 0.5f), detectionRange);
+            float angle = startAngle + angleStep * i;
+            Vector2 direction = Quaternion.Euler(0, 0, angle) * transform.right;
 
-            CheckRaycastHit(hitRight);
-            CheckRaycastHit(hitLeft);
+            hit = Physics2D.Raycast(raycastOrigin.position, direction, detectionRange);
 
-            //Debug.DrawRay(raycastOffset, new Vector2(this.transform.position.x, this.transform.position.y * (i * 0.5f)), Color.green);
-            //Debug.DrawRay(raycastOffset, new Vector2(this.transform.position.x, this.transform.position.y * (-i * 0.5f)), Color.green);
+            CheckRaycastHit(hit);
 
-            Debug.DrawRay(raycastOffset, transform.TransformDirection(new Vector3 (1, (i * 0.5f), 0), Color.green));
-            Debug.DrawRay(raycastOffset, transform.TransformDirection(new Vector3(1, (-i * 0.5f), 0), Color.green));
+            Debug.DrawRay(raycastOrigin.position, direction * detectionRange, Color.red);
+
+
         }
-
     }
     void CheckRaycastHit(RaycastHit2D hit)
     {
