@@ -57,13 +57,27 @@ public class EnemyAI : MonoBehaviour
     void HandleRaycast()
     {
         // Offset so raycast doesn't detect this.gameObject
-        raycastOffset = this.transform.position + this.transform.right * (transform.localScale.y / 2f + 0.07f);
+        raycastOffset = this.transform.localPosition + this.transform.right * (transform.localScale.y / 2f + 0.07f);
 
         //Creating raycast
-        targetRaycast = Physics2D.Raycast(raycastOffset, this.transform.right, detectionRange);
+        //targetRaycast = Physics2D.Raycast(raycastOffset, this.transform.right, detectionRange);
 
-        //Debugging raycast
-        Debug.DrawRay(raycastOffset, this.transform.right * detectionRange, Color.green);
+        // Creating raycasts
+        for (int i = 0; i < 5; i++)
+        {
+            RaycastHit2D hitRight = Physics2D.Raycast(raycastOffset, new Vector2(this.transform.localPosition.x, i * 0.5f), detectionRange);
+            RaycastHit2D hitLeft = Physics2D.Raycast(raycastOffset, new Vector2(this.transform.localPosition.x, -i * 0.5f), detectionRange);
+
+            CheckRaycastHit(hitRight);
+            CheckRaycastHit(hitLeft);
+
+            //Debug.DrawRay(raycastOffset, new Vector2(this.transform.position.x, this.transform.position.y * (i * 0.5f)), Color.green);
+            //Debug.DrawRay(raycastOffset, new Vector2(this.transform.position.x, this.transform.position.y * (-i * 0.5f)), Color.green);
+
+            Debug.DrawRay(raycastOffset, transform.TransformDirection(new Vector3 (1, (i * 0.5f), 0), Color.green));
+            Debug.DrawRay(raycastOffset, transform.TransformDirection(new Vector3(1, (-i * 0.5f), 0), Color.green));
+        }
+
     }
     void CheckRaycastHit(RaycastHit2D hit)
     {
@@ -74,6 +88,7 @@ public class EnemyAI : MonoBehaviour
             {
                 Debug.Log("Player detected!");
                 isFollowingPlayer = true;
+                targetRaycast = hit;
 
             }
         }

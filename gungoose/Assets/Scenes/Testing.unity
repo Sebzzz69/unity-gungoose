@@ -325,10 +325,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f25ad447e4f7ec54895b8bab93d8b6a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthSystem: {fileID: 0}
+  healthSystem: {fileID: 1927886977}
   detectionRange: 5
   moveSpeed: 10
-  damageAmount: 0
+  damageAmount: 5
   damageCooldownSeconds: 0
 --- !u!1 &519420028
 GameObject:
