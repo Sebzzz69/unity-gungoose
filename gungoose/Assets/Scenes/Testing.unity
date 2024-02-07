@@ -167,9 +167,10 @@ GameObject:
   - component: {fileID: 361129400}
   - component: {fileID: 361129399}
   - component: {fileID: 361129401}
+  - component: {fileID: 361129402}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -326,6 +327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f25ad447e4f7ec54895b8bab93d8b6a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
   healthSystem: {fileID: 1927886977}
   moveSpeed: 10
   damageAmount: 5
@@ -334,6 +336,19 @@ MonoBehaviour:
   detectionRange: 2
   detectionSpreadAngle: 180
   detectionDensity: 10
+--- !u!114 &361129402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361129396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55e9509132400e2449c6258e954db5ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

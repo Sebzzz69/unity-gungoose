@@ -7,6 +7,7 @@ TagManager:
   - ScalingTarget
   - Enemy
   - Lose
+  - Bullet
   layers:
   - Default
   - TransparentFX
