@@ -4,7 +4,6 @@ using UnityEngine;
 public class EnemyAI : MonoBehaviour
 {
     public GameManager gameManager;
-    public PlayerHealth healthSystem;
 
     [Header("Movement Settings")]
     [SerializeField] int moveSpeed;
