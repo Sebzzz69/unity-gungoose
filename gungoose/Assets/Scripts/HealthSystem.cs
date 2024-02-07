@@ -1,9 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-
-
-
-public class PlayerHealth : MonoBehaviour
+public class HealthSystem : MonoBehaviour
 {
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private int currentHealth;
@@ -16,21 +15,18 @@ public class PlayerHealth : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>().GetComponent<GameManager>();
     }
 
-    public void TakeDamage(int damageAmount)
+    private void Update()
     {
-        currentHealth -= damageAmount;
         if (currentHealth <= 0)
         {
             Die();
         }
     }
 
-    private void Die()
+    public void TakeDamage(int damageAmount)
     {
-        Destroy(gameObject);
-        gameManager.LoseGame();
+        currentHealth -= damageAmount;
     }
-
     public void Heal(int healAmount)
     {
         currentHealth += healAmount;
@@ -39,12 +35,17 @@ public class PlayerHealth : MonoBehaviour
             currentHealth = maxHealth;
         }
     }
+    private void Die()
+    {
+        if (this.gameObject.CompareTag("Player"))
+        {
+            gameManager.LoseGame();
+        }
+        else if (this.gameManager.CompareTag("Enemy"))
+        {
+            gameManager.WinGame();
+        }
+
+        Destroy(gameObject);
+    }
 }
-
-
-
-
-
-
-
-

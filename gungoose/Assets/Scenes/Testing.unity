@@ -328,7 +328,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 0}
-  healthSystem: {fileID: 1927886977}
   moveSpeed: 10
   damageAmount: 5
   damageCooldownSeconds: 0
@@ -349,6 +348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  currentHealth: 0
 --- !u!1 &489166735
 GameObject:
   m_ObjectHideFlags: 0
@@ -697,8 +697,8 @@ GameObject:
   - component: {fileID: 1927886974}
   - component: {fileID: 1927886973}
   - component: {fileID: 1927886975}
-  - component: {fileID: 1927886977}
   - component: {fileID: 1927886976}
+  - component: {fileID: 1927886977}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -891,10 +891,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1927886970}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43aa738e49bb3754096f417fa604591e, type: 3}
+  m_Script: {fileID: 11500000, guid: 55e9509132400e2449c6258e954db5ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  currentHealth: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

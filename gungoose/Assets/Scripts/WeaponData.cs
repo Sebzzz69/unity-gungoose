@@ -8,6 +8,7 @@ public class WeaponData : ScriptableObject
     public int bloomRange;
     public int ammunitionAmount;
     public int reloadTimeInSeconds;
+    public int damageAmount;
 
     public bool isShotgun;
 }

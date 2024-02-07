@@ -17,4 +17,5 @@ MonoBehaviour:
   bloomRange: 3
   ammunitionAmount: 10
   reloadTimeInSeconds: 2
+  damageAmount: 20
   isShotgun: 1

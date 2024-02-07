@@ -11,6 +11,7 @@ public class GunScript : MonoBehaviour
 
     int bulletSpeed;
     int bloomRange;
+    int damageAmount;
 
     int ammunitionAmount;
     int reloadTimeInSeconds;
@@ -25,6 +26,7 @@ public class GunScript : MonoBehaviour
         bulletPrefab = weaponData.bulletPrefab;
         bulletSpeed = weaponData.bulletSpeed;
         bloomRange = weaponData.bloomRange;
+        damageAmount = weaponData.damageAmount;
 
         ammunitionAmount = weaponData.ammunitionAmount;
         reloadTimeInSeconds = weaponData.reloadTimeInSeconds;
@@ -76,11 +78,16 @@ public class GunScript : MonoBehaviour
 
             for (int i = 0; i < numberOfBullets; i++)
             {
+                GameObject bullet;
+
                 // Calculate random spread within the spread angle
                 Quaternion spreadRotation = Quaternion.Euler(0, 0, firePoint.rotation.eulerAngles.z + BloomControl(bloomRange));
 
                 // Instantiate bullet with spread rotation
-                GameObject bullet = Instantiate(bulletPrefab, firePoint.position, spreadRotation);
+                bullet = Instantiate(bulletPrefab, firePoint.position, spreadRotation);
+
+                // Set bullet damage
+                bullet.GetComponent<Bullet>().SetBulletDamage(damageAmount);
 
                 Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
 
@@ -97,8 +104,13 @@ public class GunScript : MonoBehaviour
         }
         else
         {
-            GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            GameObject bullet;
+
+            bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
             bullet.transform.Rotate(Vector3.forward, BloomControl(bloomRange));
+
+            // Set bullet damage
+            bullet.GetComponent<Bullet>().SetBulletDamage(damageAmount);
 
             Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
 
@@ -109,7 +121,6 @@ public class GunScript : MonoBehaviour
 
             Debug.DrawRay(firePoint.position, bulletDirection * 5, Color.white, 0.1f);
         }
-
         
     }
 

@@ -131,7 +131,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.gameObject.GetComponent<PlayerHealth>().TakeDamage(damageAmount);
+            collision.gameObject.GetComponent<HealthSystem>().TakeDamage(damageAmount);
         }
     }
 }
