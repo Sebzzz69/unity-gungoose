@@ -1,41 +1,43 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
     public GameManager gameManager;
     public PlayerHealth healthSystem;
-    [SerializeField] int detectionRange;
+
+    [Header("Movement Settings")]
     [SerializeField] int moveSpeed;
     [SerializeField] int damageAmount;
     [SerializeField] int damageCooldownSeconds;
 
-    RaycastHit2D targetRaycast;
+    
+
+    [Header("Raycast settings for player detection")]
+    [SerializeField] Transform raycastOrigin;
+    [SerializeField] int detectionRange;
+    [SerializeField] int detectionSpreadAngle;
+    [SerializeField] int detectionDensity;
+   
     Rigidbody2D rb;
-
-
-    Vector3 raycastOffset;
-    Vector2 targetVector;
-
+    RaycastHit2D targetRaycast;
     Vector2 movement;
-
     bool isFollowingPlayer;
 
     private void Start()
     {
         rb = this.GetComponent<Rigidbody2D>();
-
         isFollowingPlayer = false;
     }
 
     private void Update()
     {
-
         HandleRaycast();
 
-        CheckRaycastHit(targetRaycast);
+        if (targetRaycast.collider != null && Vector2.Distance(this.transform.position, targetRaycast.collider.transform.position) >= detectionRange + 2)
+        {
+            isFollowingPlayer = false;
+        }
 
         if (isFollowingPlayer)
         {
@@ -56,25 +58,40 @@ public class EnemyAI : MonoBehaviour
 
     void HandleRaycast()
     {
-        // Offset so raycast doesn't detect this.gameObject
-        raycastOffset = this.transform.position + this.transform.right * (transform.localScale.y / 2f + 0.07f);
 
-        //Creating raycast
-        targetRaycast = Physics2D.Raycast(raycastOffset, this.transform.right, detectionRange);
+        float angleStep = detectionSpreadAngle / (detectionDensity - 1); // Calculate the angle between each raycast
+        float startAngle = -detectionSpreadAngle / 2;
 
-        //Debugging raycast
-        Debug.DrawRay(raycastOffset, this.transform.right * detectionRange, Color.green);
+        // Creating raycasts
+        if (!isFollowingPlayer)
+        {
+            for (int i = 0; i < detectionDensity; i++)
+            {
+                float angle = startAngle + angleStep * i;
+                Vector2 direction = Quaternion.Euler(0, 0, angle) * transform.right;
+
+                RaycastHit2D hit = Physics2D.Raycast(raycastOrigin.position, direction, detectionRange);
+
+                if (hit.collider != null)
+                {
+                    CheckRaycastHit(hit);
+                }
+
+                Debug.DrawRay(raycastOrigin.position, direction * detectionRange, Color.red);
+            }
+        }
+        
+
     }
     void CheckRaycastHit(RaycastHit2D hit)
     {
         if (hit.collider != null)
         {
-            Debug.Log(hit.collider.gameObject.name);
-            if (hit.collider.CompareTag("Player"))
-            {
-                Debug.Log("Player detected!");
-                isFollowingPlayer = true;
+            isFollowingPlayer = hit.collider.CompareTag("Player");
 
+            if (isFollowingPlayer)
+            {
+                targetRaycast = hit;
             }
         }
 
@@ -89,8 +106,7 @@ public class EnemyAI : MonoBehaviour
         // IDK HTF this works
         // Too lazy to figure out
 
-        Vector2 current = transform.position;
-        var direction = target - current;
+        Vector2 direction = target - (Vector2)transform.position;
         var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
