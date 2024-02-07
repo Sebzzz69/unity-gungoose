@@ -6,6 +6,12 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 
  {
+
+    private void Start()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
     public void WinGame()
     {
         SceneManager.LoadScene("Win");

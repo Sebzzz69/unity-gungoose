@@ -8,9 +8,12 @@ public class PlayerHealth : MonoBehaviour
     public int maxHealth = 100;
     private int currentHealth;
 
+    GameManager gameManager;
+
     private void Start()
     {
         currentHealth = maxHealth;
+        gameManager = FindObjectOfType<GameManager>().GetComponent<GameManager>();
     }
 
     public void TakeDamage(int damageAmount)
@@ -24,8 +27,8 @@ public class PlayerHealth : MonoBehaviour
 
     private void Die()
     {
-        
         Destroy(gameObject);
+        gameManager.LoseGame();
     }
 
     public void Heal(int healAmount)

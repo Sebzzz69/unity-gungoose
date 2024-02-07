@@ -7,9 +7,12 @@ public class EnemyHealth : MonoBehaviour
     public int maxHealth = 100;
     private int currentHealth;
 
+    GameManager gameManager;
+
     private void Start()
     {
         currentHealth = maxHealth;
+        gameManager = FindObjectOfType<GameManager>().GetComponent<GameManager>();
     }
 
     public void TakeDamage(int damageAmount)
@@ -44,6 +47,7 @@ public class EnemyHealth : MonoBehaviour
             if(currentHealth < 0)
             {
                 Die();
+                gameManager.WinGame();
             }
                 
 

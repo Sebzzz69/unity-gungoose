@@ -11,14 +11,14 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] int damageAmount;
     [SerializeField] int damageCooldownSeconds;
 
-    
+
 
     [Header("Raycast settings for player detection")]
     [SerializeField] Transform raycastOrigin;
     [SerializeField] int detectionRange;
     [SerializeField] int detectionSpreadAngle;
     [SerializeField] int detectionDensity;
-   
+
     Rigidbody2D rb;
     RaycastHit2D targetRaycast;
     Vector2 movement;
@@ -80,7 +80,7 @@ public class EnemyAI : MonoBehaviour
                 Debug.DrawRay(raycastOrigin.position, direction * detectionRange, Color.red);
             }
         }
-        
+
 
     }
     void CheckRaycastHit(RaycastHit2D hit)
@@ -128,20 +128,11 @@ public class EnemyAI : MonoBehaviour
     }
 
 
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            if (collision.gameObject.CompareTag("Player"))
-            {
-                healthSystem.TakeDamage(damageAmount);
-            }
-        }
-
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (other.CompareTag("Respawn"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            gameManager.LoseGame();
+            collision.gameObject.GetComponent<PlayerHealth>().TakeDamage(damageAmount);
         }
     }
 }
-
