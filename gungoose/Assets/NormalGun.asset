@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: NormalGun
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 1751305696048513978, guid: 32979b1958ea97e42922a14f71fae95c, type: 3}
-  bulletSpeed: 10
-  bloomRange: 3
-  ammunitionAmount: 10
-  reloadTimeInSeconds: 2
-  damageAmount: 20
-  isShotgun: 1
+  BulletSpeed: 5
+  BloomRange: 2
+  AmmunitionAmount: 10
+  MaxWeaponClips: 1
+  ReloadTimeInSeconds: 2
+  DamageAmount: 20
+  IsShotgun: 0

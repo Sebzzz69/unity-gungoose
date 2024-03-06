@@ -14,24 +14,26 @@ public class GunScript : MonoBehaviour
     int damageAmount;
 
     int ammunitionAmount;
+    int currentAmmoClips;
     int reloadTimeInSeconds;
     int bulletCount;
 
     bool isShotgun;
-    
+
 
 
     private void Start()
     {
         bulletPrefab = weaponData.bulletPrefab;
-        bulletSpeed = weaponData.bulletSpeed;
-        bloomRange = weaponData.bloomRange;
-        damageAmount = weaponData.damageAmount;
+        bulletSpeed = weaponData.BulletSpeed;
+        bloomRange = weaponData.BloomRange;
+        damageAmount = weaponData.DamageAmount;
 
-        ammunitionAmount = weaponData.ammunitionAmount;
-        reloadTimeInSeconds = weaponData.reloadTimeInSeconds;
+        ammunitionAmount = weaponData.AmmunitionAmount;
+        currentAmmoClips = weaponData.MaxWeaponClips;
+        reloadTimeInSeconds = weaponData.ReloadTimeInSeconds;
 
-        isShotgun = weaponData.isShotgun;
+        isShotgun = weaponData.IsShotgun;
 
         bulletCount = ammunitionAmount;
     }
@@ -47,8 +49,8 @@ public class GunScript : MonoBehaviour
             bulletCount--;
         }
 
-        if(Input.GetKeyDown(KeyCode.R)) 
-        { 
+        if (Input.GetKeyDown(KeyCode.R))
+        {
             ReloadTimer();
             Reload();
         }
@@ -70,7 +72,12 @@ public class GunScript : MonoBehaviour
 
     void Shoot()
     {
+
+        if (currentAmmoClips <= 0) { return; }
+
+
         int numberOfBullets = 5;
+
 
         if (isShotgun)
         {
@@ -121,7 +128,7 @@ public class GunScript : MonoBehaviour
 
             Debug.DrawRay(firePoint.position, bulletDirection * 5, Color.white, 0.1f);
         }
-        
+
     }
 
     int BloomControl(int bloomRange)
@@ -134,8 +141,14 @@ public class GunScript : MonoBehaviour
         {
             return Random.Range(bloomRange, -bloomRange);
         }
-        
+
     }
+
+    public void AddClip(int clippAmmountToAdd)
+    {
+        currentAmmoClips += clippAmmountToAdd;
+    }
+
 }
 
 

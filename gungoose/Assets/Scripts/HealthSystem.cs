@@ -37,14 +37,21 @@ public class HealthSystem : MonoBehaviour
     }
     private void Die()
     {
-        if (this.gameObject.CompareTag("Player"))
+
+        if (this.gameObject.CompareTag("Enemy"))
+        {
+            GetComponent<ItemDrop>().DropItem();
+        }
+
+
+        /*if (this.gameObject.CompareTag("Player"))
         {
             gameManager.LoseGame();
         }
         else if (this.gameManager.CompareTag("Enemy"))
         {
             gameManager.WinGame();
-        }
+        }*/
 
         Destroy(gameObject);
     }
