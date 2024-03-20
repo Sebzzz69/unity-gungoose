@@ -20,6 +20,7 @@ public class EnemyAI : MonoBehaviour
 
     Rigidbody2D rb;
     RaycastHit2D targetRaycast;
+    [SerializeField] LayerMask RaycastIgnore;
     Vector2 movement;
     bool isFollowingPlayer;
 
@@ -69,10 +70,11 @@ public class EnemyAI : MonoBehaviour
                 float angle = startAngle + angleStep * i;
                 Vector2 direction = Quaternion.Euler(0, 0, angle) * transform.right;
 
-                RaycastHit2D hit = Physics2D.Raycast(raycastOrigin.position, direction, detectionRange);
+                RaycastHit2D hit = Physics2D.Raycast(raycastOrigin.position, direction, detectionRange, ~RaycastIgnore);
 
                 if (hit.collider != null)
                 {
+                    Debug.Log(hit.collider.gameObject.name);
                     CheckRaycastHit(hit);
                 }
 
@@ -84,6 +86,7 @@ public class EnemyAI : MonoBehaviour
     }
     void CheckRaycastHit(RaycastHit2D hit)
     {
+
         if (hit.collider != null)
         {
             isFollowingPlayer = hit.collider.CompareTag("Player");
