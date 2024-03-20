@@ -35,7 +35,6 @@ public class MovementScript : MonoBehaviour
 
         RotatePlayer();
 
-        movement = acceleration;
 
     }
     private void FixedUpdate()
@@ -47,49 +46,50 @@ public class MovementScript : MonoBehaviour
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
+
+        if (horizontalInput != 0)
+        {
+            verticalInput = 0;
+        }
+
+        movement = new Vector2(horizontalInput, verticalInput).normalized;
     }
     void RotatePlayer()
     {
 
-        if (Input.GetAxisRaw("Horizontal") < 0)
+        if (movement.x < 0)
         {
-            this.transform.eulerAngles = new Vector3(0, 0, 90);
+            transform.eulerAngles = new Vector3(0, 0, 90);
         }
-        else if (Input.GetAxisRaw("Horizontal") > 0)
+        else if (movement.x > 0)
         {
-            this.transform.eulerAngles = new Vector3(0, 0, -90);
+            transform.eulerAngles = new Vector3(0, 0, -90);
+        }
+        else if (movement.y < 0)
+        {
+            transform.eulerAngles = new Vector3(0, 0, 180);
+        }
+        else if (movement.y > 0)
+        {
+            transform.eulerAngles = Vector3.zero;
         }
 
-        if (Input.GetAxisRaw("Vertical") < 0)
-        {
-            this.transform.eulerAngles = new Vector3(0, 0, 180);
-        }
-        else if (Input.GetAxisRaw("Vertical") > 0)
-        {
-            this.transform.eulerAngles = Vector3.zero;
-        }
     }
 
     void ApplyAcceleration()
     {
-        // basically the moveSpeed variable
-        Vector2 targetVelocity = new Vector2(horizontalInput, verticalInput).normalized * moveSpeed;
-
-        // Lerp 
-        acceleration = Vector2.Lerp(acceleration, targetVelocity, accelerationSpeed * Time.deltaTime);
+        Vector2 targetVelocity = movement * moveSpeed;
+        movement = Vector2.Lerp(movement, targetVelocity, accelerationSpeed * Time.deltaTime);
     }
 
     void ApplyDrag()
     {
-        // Tbh IDK if this even works
-        // But its supposte to be the opposite of acceleration once 
-        // you don't move anymore
-        if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
-        {
-            acceleration = Vector2.Lerp(acceleration, Vector2.zero, drag * decayFactor * Time.deltaTime);
 
-            movement = acceleration;
+        if (movement.magnitude == 0)
+        {
+            movement = Vector2.Lerp(movement, Vector2.zero, drag * decayFactor * Time.deltaTime);
         }
+
     }
 
 

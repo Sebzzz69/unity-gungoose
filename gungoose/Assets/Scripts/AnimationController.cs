@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class AnimationController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] Animator animator;
+    Rigidbody2D rb;
+    AnimationController controller;
+
+    private void Start()
     {
-        
+        animator = GetComponent<Animator>();
+        rb = GetComponentInParent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
+        Debug.Log(rb.velocity.normalized);
+
         
+
     }
 }

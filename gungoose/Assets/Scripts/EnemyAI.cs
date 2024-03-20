@@ -42,7 +42,7 @@ public class EnemyAI : MonoBehaviour
         if (isFollowingPlayer)
         {
             MoveTowards(targetRaycast.collider.gameObject);
-            LookAt2D(this.transform, targetRaycast.collider.transform.position);
+            //LookAt2D(this.transform, targetRaycast.collider.transform.position);
         }
         else if (!isFollowingPlayer)
         {
@@ -110,6 +110,9 @@ public class EnemyAI : MonoBehaviour
 
         Vector2 direction = target - (Vector2)transform.position;
         var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        angle = Mathf.Round(angle / 90) * 90;
+
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 
@@ -121,7 +124,19 @@ public class EnemyAI : MonoBehaviour
     void MoveTowards(GameObject target)
     {
         // Calculate the movement direction
-        movement = (target.transform.position - this.transform.position).normalized;
+        Vector2 direction = (target.transform.position - this.transform.position).normalized;
+
+        // Check whether the absolute value of the x component is greater than the y component
+        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+        {
+            // Move horizontally
+            movement = new Vector2(direction.x, 0f).normalized;
+        }
+        else
+        {
+            // Move vertically
+            movement = new Vector2(0f, direction.y).normalized;
+        }
     }
 
     void StopMoving()
