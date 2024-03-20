@@ -14,7 +14,7 @@ public class GunScript : MonoBehaviour
     int damageAmount;
 
     int ammunitionAmount;
-    int currentAmmoClips;
+    [SerializeField] int currentAmmoClips;
     int reloadTimeInSeconds;
     int bulletCount;
 

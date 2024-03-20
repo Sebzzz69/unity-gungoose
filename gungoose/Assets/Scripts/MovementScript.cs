@@ -93,12 +93,15 @@ public class MovementScript : MonoBehaviour
     }
 
 
-    private void OnCollisionTrigger2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("AmmunitionClip"))
         {
             this.gameObject.GetComponent<GunScript>().AddClip(1);
+            Destroy(collision.gameObject);
         }
     }
+
+ 
 
 }

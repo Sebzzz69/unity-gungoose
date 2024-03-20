@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3e26dc6092c7a0746b6a0d5a1a0aaac1
+guid: b161a717702fcfd44ad14dcb4cbe14b5
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -108,7 +108,70 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: "j\xE4gare g\xE5 v\xE4nster_0"
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 131
+        width: 1220
+        height: 1638
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b8c5b166787db6945991f0629dafd316
+      internalID: 1014187904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "j\xE4gare g\xE5 v\xE4nster_1"
+      rect:
+        serializedVersion: 2
+        x: 1830
+        y: 161
+        width: 693
+        height: 1623
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ed65cd9aefe7aa4bbe03fc63b386fd5
+      internalID: -1823235364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "j\xE4gare g\xE5 v\xE4nster_2"
+      rect:
+        serializedVersion: 2
+        x: 3116
+        y: 144
+        width: 1220
+        height: 1630
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8dad4985b5832ba47ad7fa798cdae5d7
+      internalID: -250534872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -119,7 +182,10 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      "j\xE4gare g\xE5 v\xE4nster_0": 1014187904
+      "j\xE4gare g\xE5 v\xE4nster_1": -1823235364
+      "j\xE4gare g\xE5 v\xE4nster_2": -250534872
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
